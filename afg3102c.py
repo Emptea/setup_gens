@@ -22,7 +22,7 @@ class AFG3102C:
         devices_id = self.rm.list_resources()
         dmm_resources=''
         for string in devices_id:
-            if 'AFG3' in string:
+            if 'C011993' in string:
                 dmm_resources = string
                 print(f"AFG3102C address: {dmm_resources}")
                 dmm = self.rm.open_resource(dmm_resources)  
@@ -38,16 +38,16 @@ class AFG3102C:
         time.sleep(0.1)
 
     def set_freq(self,freq,chan = 1):
-        self.send(':SOUR'+str(chan) +':FREQ '+str(freq) +'MHZ')
+        self.send(':SOUR'+ str(chan) +':FREQ '+str(freq) +'MHZ')
 
     def set_sin(self,freq,amp,offset,phase,chan = 1):
         self.send(':SOUR' + str(chan) +':VOLT:UNIT VPP')
-        self.send(':SOUR' + str(chan) +'FUNC:SHAP SIN')
+        self.send(':SOUR' + str(chan) +':FUNC:SHAP SIN')
         self.set_freq(freq)
-        self.send(':SOUR' + str(chan) +'VOLT:LEV:IMM:AMP '+ str(amp) + 'VPP')
-        self.send(':SOUR' + str(chan) +'VOLT:OFFS '+str(offset) + 'V')
-        self.send(':SOUR' + str(chan) +'PHAS '+ str(phase) +'DEG')
-        self.send('AFGCONTROL:CSCOPYCH1,CH2')
+        self.send(':SOUR' + str(chan) +':VOLT:AMPL '+ str(amp) + 'VPP')
+        self.send(':SOUR' + str(chan) +':VOLT:OFFS '+str(offset) + 'V')
+        self.send(':SOUR' + str(chan) +':PHAS '+ str(phase) +'DEG')
+        self.send('AFGCONTROL:CSCOPY CH1,CH2')
         self.send(':PHAS:INIT')
         
         
@@ -56,7 +56,9 @@ class AFG3102C:
 
     def output(self, onoff):
         if (onoff): 
+            self.send('*WAI')
             self.send('OUTPUT1:STATE ON')
+            self.send('*WAI')
             self.send('OUTPUT2:STATE ON')
         else: 
             self.send('OUTPUT1:STATE OFF')
@@ -65,9 +67,9 @@ class AFG3102C:
 
 
 
-gen_40mhz = AFG3102C()
-gen_40mhz.set_sin(40, 3, 0, 0)
-gen_40mhz.output(1)
+# gen_40mhz = AFG3102C()
+# gen_40mhz.set_sin(40, 3, 0, 0)
+# gen_40mhz.output(1)
 
 class TestDM:
     def query(self, command: str) -> str:
