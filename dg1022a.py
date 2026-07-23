@@ -66,10 +66,10 @@ class DG1022A:
 
 
 
-dg1022a = DG1022A()
-dg1022a.set_ext_clk()
-dg1022a.set_pulse(1e6/46.4, 1, 0, 0)
-dg1022a.output(1)
+# dg1022a = DG1022A()
+# dg1022a.set_ext_clk()
+# dg1022a.set_pulse(1e6/46.4, 1, 0, 0)
+# dg1022a.output(1)
 
 class TestDM:
     def query(self, command: str) -> str:
